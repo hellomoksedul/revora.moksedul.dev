@@ -44,7 +44,8 @@ class Revora_Frontend {
 						<div class="revora-stars-display">
 							<?php echo wp_kses( $this->render_stars( $stats->average ), array( 'div' => array( 'class' => array() ), 'svg' => array( 'class' => array(), 'viewbox' => array() ), 'path' => array( 'd' => array() ) ) ); ?>
 						</div>
-						<span class="revora-total-count"><?php echo esc_html( sprintf( _n( '%s review', '%s reviews', $stats->total, 'revora' ), number_format_i18n( $stats->total ) ) ); ?></span>
+						<?php /* translators: %s: Number of reviews. */ ?>
+						<span class="revora-total-count"><?php echo esc_html( sprintf( _n( '%s review', '%s reviews', $stats->total, 'revora.moksedul.dev' ), number_format_i18n( $stats->total ) ) ); ?></span>
 					</div>
 				</div>
 			<?php endif; ?>
@@ -64,12 +65,12 @@ class Revora_Frontend {
 								<span class="revora-review-date"><?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $review->created_at ) ) ); ?></span>
 							</div>
 							<div class="revora-review-content">
-								<?php echo wpautop( esc_html( $review->content ) ); ?>
+								<?php echo wp_kses_post( wpautop( esc_html( $review->content ) ) ); ?>
 							</div>
 						</div>
 					<?php endforeach; ?>
 				<?php else : ?>
-					<p class="revora-no-reviews"><?php esc_html_e( 'No reviews yet for this category.', 'revora' ); ?></p>
+					<p class="revora-no-reviews"><?php esc_html_e( 'No reviews yet for this category.', 'revora.moksedul.dev' ); ?></p>
 				<?php endif; ?>
 			</div>
 		</div>
@@ -99,17 +100,17 @@ class Revora_Frontend {
 
 				<div class="revora-form-row">
 					<div class="revora-form-field">
-						<label for="revora-name"><?php esc_html_e( 'Name', 'revora' ); ?></label>
+						<label for="revora-name"><?php esc_html_e( 'Name', 'revora.moksedul.dev' ); ?></label>
 						<input type="text" id="revora-name" name="name" required>
 					</div>
 					<div class="revora-form-field">
-						<label for="revora-email"><?php esc_html_e( 'Email', 'revora' ); ?></label>
+						<label for="revora-email"><?php esc_html_e( 'Email', 'revora.moksedul.dev' ); ?></label>
 						<input type="email" id="revora-email" name="email" required>
 					</div>
 				</div>
 
 				<div class="revora-form-field">
-					<label><?php esc_html_e( 'Rating', 'revora' ); ?></label>
+					<label><?php esc_html_e( 'Rating', 'revora.moksedul.dev' ); ?></label>
 					<div class="revora-rating-input">
 						<?php for ( $i = 5; $i >= 1; $i-- ) : ?>
 							<input type="radio" id="star-<?php echo absint( $i ); ?>" name="rating" value="<?php echo absint( $i ); ?>" required />
@@ -121,18 +122,18 @@ class Revora_Frontend {
 				</div>
 
 				<div class="revora-form-field">
-					<label for="revora-title"><?php esc_html_e( 'Review Title', 'revora' ); ?></label>
+					<label for="revora-title"><?php esc_html_e( 'Review Title', 'revora.moksedul.dev' ); ?></label>
 					<input type="text" id="revora-title" name="title" required>
 				</div>
 
 				<div class="revora-form-field">
-					<label for="revora-content"><?php esc_html_e( 'Review Content', 'revora' ); ?></label>
+					<label for="revora-content"><?php esc_html_e( 'Review Content', 'revora.moksedul.dev' ); ?></label>
 					<textarea id="revora-content" name="content" rows="5" required minlength="25"></textarea>
 				</div>
 
 				<div class="revora-form-footer">
 					<button type="submit" class="revora-submit-btn">
-						<span class="btn-text"><?php esc_html_e( 'Submit Review', 'revora' ); ?></span>
+						<span class="btn-text"><?php esc_html_e( 'Submit Review', 'revora.moksedul.dev' ); ?></span>
 						<span class="revora-spinner"></span>
 					</button>
 				</div>

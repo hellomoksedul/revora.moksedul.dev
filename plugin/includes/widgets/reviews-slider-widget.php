@@ -14,7 +14,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 	}
 
 	public function get_title() {
-		return __( 'Reviews Slider', 'revora' );
+		return __( 'Reviews Slider', 'revora.moksedul.dev' );
 	}
 
 	public function get_icon() {
@@ -42,14 +42,14 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'query_section',
 			array(
-				'label' => __( 'Query Settings', 'revora' ),
+				'label' => __( 'Query Settings', 'revora.moksedul.dev' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 			)
 		);
 
 		$db = new Revora_DB();
 		$categories = $db->get_categories();
-		$category_options = array( '' => __( 'All Categories', 'revora' ) );
+		$category_options = array( '' => __( 'All Categories', 'revora.moksedul.dev' ) );
 		foreach ( $categories as $cat ) {
 			$category_options[ $cat->slug ] = $cat->name;
 		}
@@ -57,7 +57,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'category',
 			array(
-				'label'   => __( 'Category', 'revora' ),
+				'label'   => __( 'Category', 'revora.moksedul.dev' ),
 				'type'    => \Elementor\Controls_Manager::SELECT,
 				'options' => $category_options,
 				'default' => '',
@@ -67,7 +67,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'limit',
 			array(
-				'label'   => __( 'Number of Reviews', 'revora' ),
+				'label'   => __( 'Number of Reviews', 'revora.moksedul.dev' ),
 				'type'    => \Elementor\Controls_Manager::NUMBER,
 				'default' => 10,
 				'min'     => 1,
@@ -81,7 +81,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'slider_section',
 			array(
-				'label' => __( 'Slider Settings', 'revora' ),
+				'label' => __( 'Slider Settings', 'revora.moksedul.dev' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -89,14 +89,14 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'card_style',
 			array(
-				'label'   => __( 'Card Style', 'revora' ),
+				'label'   => __( 'Card Style', 'revora.moksedul.dev' ),
 				'type'    => \Elementor\Controls_Manager::SELECT,
 				'options' => array(
-					'classic'      => __( 'Classic', 'revora' ),
-					'modern'       => __( 'Modern', 'revora' ),
-					'boxed'        => __( 'Boxed', 'revora' ),
-					'horizontal'   => __( 'Horizontal', 'revora' ),
-					'testimonial'  => __( 'Testimonial', 'revora' ),
+					'classic'      => __( 'Classic', 'revora.moksedul.dev' ),
+					'modern'       => __( 'Modern', 'revora.moksedul.dev' ),
+					'boxed'        => __( 'Boxed', 'revora.moksedul.dev' ),
+					'horizontal'   => __( 'Horizontal', 'revora.moksedul.dev' ),
+					'testimonial'  => __( 'Testimonial', 'revora.moksedul.dev' ),
 				),
 				'default' => 'classic',
 			)
@@ -105,7 +105,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'slides_to_show',
 			array(
-				'label'          => __( 'Slides to Show', 'revora' ),
+				'label'          => __( 'Slides to Show', 'revora.moksedul.dev' ),
 				'type'           => \Elementor\Controls_Manager::NUMBER,
 				'default'        => 3,
 				'tablet_default' => 2,
@@ -118,7 +118,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'slides_to_scroll',
 			array(
-				'label'   => __( 'Slides to Scroll', 'revora' ),
+				'label'   => __( 'Slides to Scroll', 'revora.moksedul.dev' ),
 				'type'    => \Elementor\Controls_Manager::NUMBER,
 				'default' => 1,
 				'min'     => 1,
@@ -129,7 +129,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'space_between',
 			array(
-				'label'          => __( 'Space Between', 'revora' ),
+				'label'          => __( 'Space Between', 'revora.moksedul.dev' ),
 				'type'           => \Elementor\Controls_Manager::NUMBER,
 				'default'        => 24,
 				'tablet_default' => 20,
@@ -142,10 +142,10 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'autoplay',
 			array(
-				'label'        => __( 'Autoplay', 'revora' ),
+				'label'        => __( 'Autoplay', 'revora.moksedul.dev' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'revora' ),
-				'label_off'    => __( 'No', 'revora' ),
+				'label_on'     => __( 'Yes', 'revora.moksedul.dev' ),
+				'label_off'    => __( 'No', 'revora.moksedul.dev' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			)
@@ -154,7 +154,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'autoplay_speed',
 			array(
-				'label'     => __( 'Autoplay Speed (ms)', 'revora' ),
+				'label'     => __( 'Autoplay Speed (ms)', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::NUMBER,
 				'default'   => 3000,
 				'min'       => 1000,
@@ -169,10 +169,10 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'pause_on_hover',
 			array(
-				'label'        => __( 'Pause on Hover', 'revora' ),
+				'label'        => __( 'Pause on Hover', 'revora.moksedul.dev' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'revora' ),
-				'label_off'    => __( 'No', 'revora' ),
+				'label_on'     => __( 'Yes', 'revora.moksedul.dev' ),
+				'label_off'    => __( 'No', 'revora.moksedul.dev' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition'    => array(
@@ -184,10 +184,10 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'loop',
 			array(
-				'label'        => __( 'Infinite Loop', 'revora' ),
+				'label'        => __( 'Infinite Loop', 'revora.moksedul.dev' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Yes', 'revora' ),
-				'label_off'    => __( 'No', 'revora' ),
+				'label_on'     => __( 'Yes', 'revora.moksedul.dev' ),
+				'label_off'    => __( 'No', 'revora.moksedul.dev' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			)
@@ -196,7 +196,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'speed',
 			array(
-				'label'   => __( 'Animation Speed (ms)', 'revora' ),
+				'label'   => __( 'Animation Speed (ms)', 'revora.moksedul.dev' ),
 				'type'    => \Elementor\Controls_Manager::NUMBER,
 				'default' => 500,
 				'min'     => 100,
@@ -208,13 +208,13 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'effect',
 			array(
-				'label'   => __( 'Effect', 'revora' ),
+				'label'   => __( 'Effect', 'revora.moksedul.dev' ),
 				'type'    => \Elementor\Controls_Manager::SELECT,
 				'options' => array(
-					'slide'     => __( 'Slide', 'revora' ),
-					'fade'      => __( 'Fade', 'revora' ),
-					'cube'      => __( 'Cube', 'revora' ),
-					'coverflow' => __( 'Coverflow', 'revora' ),
+					'slide'     => __( 'Slide', 'revora.moksedul.dev' ),
+					'fade'      => __( 'Fade', 'revora.moksedul.dev' ),
+					'cube'      => __( 'Cube', 'revora.moksedul.dev' ),
+					'coverflow' => __( 'Coverflow', 'revora.moksedul.dev' ),
 				),
 				'default' => 'slide',
 			)
@@ -226,7 +226,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'navigation_section',
 			array(
-				'label' => __( 'Navigation', 'revora' ),
+				'label' => __( 'Navigation', 'revora.moksedul.dev' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -234,10 +234,10 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'show_arrows',
 			array(
-				'label'        => __( 'Show Arrows', 'revora' ),
+				'label'        => __( 'Show Arrows', 'revora.moksedul.dev' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Show', 'revora' ),
-				'label_off'    => __( 'Hide', 'revora' ),
+				'label_on'     => __( 'Show', 'revora.moksedul.dev' ),
+				'label_off'    => __( 'Hide', 'revora.moksedul.dev' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			)
@@ -246,11 +246,11 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'arrow_position',
 			array(
-				'label'     => __( 'Arrow Position', 'revora' ),
+				'label'     => __( 'Arrow Position', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::SELECT,
 				'options'   => array(
-					'inside'  => __( 'Inside', 'revora' ),
-					'outside' => __( 'Outside', 'revora' ),
+					'inside'  => __( 'Inside', 'revora.moksedul.dev' ),
+					'outside' => __( 'Outside', 'revora.moksedul.dev' ),
 				),
 				'default'   => 'inside',
 				'condition' => array(
@@ -262,10 +262,10 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'show_pagination',
 			array(
-				'label'        => __( 'Show Pagination', 'revora' ),
+				'label'        => __( 'Show Pagination', 'revora.moksedul.dev' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Show', 'revora' ),
-				'label_off'    => __( 'Hide', 'revora' ),
+				'label_on'     => __( 'Show', 'revora.moksedul.dev' ),
+				'label_off'    => __( 'Hide', 'revora.moksedul.dev' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			)
@@ -274,12 +274,12 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'pagination_type',
 			array(
-				'label'     => __( 'Pagination Type', 'revora' ),
+				'label'     => __( 'Pagination Type', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::SELECT,
 				'options'   => array(
-					'bullets'     => __( 'Bullets', 'revora' ),
-					'fraction'    => __( 'Fraction', 'revora' ),
-					'progressbar' => __( 'Progress Bar', 'revora' ),
+					'bullets'     => __( 'Bullets', 'revora.moksedul.dev' ),
+					'fraction'    => __( 'Fraction', 'revora.moksedul.dev' ),
+					'progressbar' => __( 'Progress Bar', 'revora.moksedul.dev' ),
 				),
 				'default'   => 'bullets',
 				'condition' => array(
@@ -294,7 +294,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'display_section',
 			array(
-				'label' => __( 'Display Options', 'revora' ),
+				'label' => __( 'Display Options', 'revora.moksedul.dev' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 			)
 		);
@@ -302,10 +302,10 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'show_author',
 			array(
-				'label'        => __( 'Show Author Name', 'revora' ),
+				'label'        => __( 'Show Author Name', 'revora.moksedul.dev' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Show', 'revora' ),
-				'label_off'    => __( 'Hide', 'revora' ),
+				'label_on'     => __( 'Show', 'revora.moksedul.dev' ),
+				'label_off'    => __( 'Hide', 'revora.moksedul.dev' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			)
@@ -314,10 +314,10 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'show_date',
 			array(
-				'label'        => __( 'Show Date', 'revora' ),
+				'label'        => __( 'Show Date', 'revora.moksedul.dev' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Show', 'revora' ),
-				'label_off'    => __( 'Hide', 'revora' ),
+				'label_on'     => __( 'Show', 'revora.moksedul.dev' ),
+				'label_off'    => __( 'Hide', 'revora.moksedul.dev' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			)
@@ -326,10 +326,10 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'show_rating',
 			array(
-				'label'        => __( 'Show Rating Stars', 'revora' ),
+				'label'        => __( 'Show Rating Stars', 'revora.moksedul.dev' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Show', 'revora' ),
-				'label_off'    => __( 'Hide', 'revora' ),
+				'label_on'     => __( 'Show', 'revora.moksedul.dev' ),
+				'label_off'    => __( 'Hide', 'revora.moksedul.dev' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			)
@@ -338,10 +338,10 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'show_title',
 			array(
-				'label'        => __( 'Show Review Title', 'revora' ),
+				'label'        => __( 'Show Review Title', 'revora.moksedul.dev' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Show', 'revora' ),
-				'label_off'    => __( 'Hide', 'revora' ),
+				'label_on'     => __( 'Show', 'revora.moksedul.dev' ),
+				'label_off'    => __( 'Hide', 'revora.moksedul.dev' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			)
@@ -353,7 +353,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_cards',
 			array(
-				'label' => __( 'Review Cards', 'revora' ),
+				'label' => __( 'Review Cards', 'revora.moksedul.dev' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -361,7 +361,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'card_background',
 			array(
-				'label'     => __( 'Background Color', 'revora' ),
+				'label'     => __( 'Background Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .revora-review-card' => 'background-color: {{VALUE}};',
@@ -380,7 +380,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'card_border_radius',
 			array(
-				'label'      => __( 'Border Radius', 'revora' ),
+				'label'      => __( 'Border Radius', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -392,7 +392,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'card_padding',
 			array(
-				'label'      => __( 'Padding', 'revora' ),
+				'label'      => __( 'Padding', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
@@ -415,7 +415,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_author',
 			array(
-				'label'     => __( 'Author Name', 'revora' ),
+				'label'     => __( 'Author Name', 'revora.moksedul.dev' ),
 				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'show_author' => 'yes',
@@ -434,7 +434,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'author_color',
 			array(
-				'label'     => __( 'Color', 'revora' ),
+				'label'     => __( 'Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .revora-review-author' => 'color: {{VALUE}};',
@@ -445,7 +445,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'author_margin',
 			array(
-				'label'      => __( 'Margin', 'revora' ),
+				'label'      => __( 'Margin', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
@@ -460,7 +460,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_date',
 			array(
-				'label'     => __( 'Date', 'revora' ),
+				'label'     => __( 'Date', 'revora.moksedul.dev' ),
 				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'show_date' => 'yes',
@@ -479,7 +479,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'date_color',
 			array(
-				'label'     => __( 'Color', 'revora' ),
+				'label'     => __( 'Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .revora-review-date' => 'color: {{VALUE}};',
@@ -490,7 +490,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'date_margin',
 			array(
-				'label'      => __( 'Margin', 'revora' ),
+				'label'      => __( 'Margin', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
@@ -505,7 +505,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_rating',
 			array(
-				'label'     => __( 'Rating Stars', 'revora' ),
+				'label'     => __( 'Rating Stars', 'revora.moksedul.dev' ),
 				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'show_rating' => 'yes',
@@ -516,7 +516,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'rating_star_size',
 			array(
-				'label'      => __( 'Star Size', 'revora' ),
+				'label'      => __( 'Star Size', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'range'      => array(
@@ -534,7 +534,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'rating_filled_color',
 			array(
-				'label'     => __( 'Filled Color', 'revora' ),
+				'label'     => __( 'Filled Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .revora-review-rating .dashicons.filled' => 'color: {{VALUE}};',
@@ -545,7 +545,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'rating_empty_color',
 			array(
-				'label'     => __( 'Empty Color', 'revora' ),
+				'label'     => __( 'Empty Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .revora-review-rating .dashicons.empty' => 'color: {{VALUE}};',
@@ -556,7 +556,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'rating_margin',
 			array(
-				'label'      => __( 'Margin', 'revora' ),
+				'label'      => __( 'Margin', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
@@ -571,7 +571,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_title',
 			array(
-				'label'     => __( 'Review Title', 'revora' ),
+				'label'     => __( 'Review Title', 'revora.moksedul.dev' ),
 				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'show_title' => 'yes',
@@ -590,7 +590,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'title_color',
 			array(
-				'label'     => __( 'Color', 'revora' ),
+				'label'     => __( 'Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .revora-review-title' => 'color: {{VALUE}};',
@@ -601,7 +601,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'title_margin',
 			array(
-				'label'      => __( 'Margin', 'revora' ),
+				'label'      => __( 'Margin', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
@@ -616,7 +616,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_content',
 			array(
-				'label' => __( 'Review Content', 'revora' ),
+				'label' => __( 'Review Content', 'revora.moksedul.dev' ),
 				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
 			)
 		);
@@ -632,7 +632,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'content_color',
 			array(
-				'label'     => __( 'Color', 'revora' ),
+				'label'     => __( 'Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .revora-review-content' => 'color: {{VALUE}};',
@@ -643,7 +643,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_responsive_control(
 			'content_margin',
 			array(
-				'label'      => __( 'Margin', 'revora' ),
+				'label'      => __( 'Margin', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%', 'em' ),
 				'selectors'  => array(
@@ -658,7 +658,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_arrows',
 			array(
-				'label'     => __( 'Navigation Arrows', 'revora' ),
+				'label'     => __( 'Navigation Arrows', 'revora.moksedul.dev' ),
 				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'show_arrows' => 'yes',
@@ -669,7 +669,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'arrow_size',
 			array(
-				'label'      => __( 'Size', 'revora' ),
+				'label'      => __( 'Size', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'range'      => array(
@@ -690,14 +690,14 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_tab(
 			'arrow_normal',
 			array(
-				'label' => __( 'Normal', 'revora' ),
+				'label' => __( 'Normal', 'revora.moksedul.dev' ),
 			)
 		);
 
 		$this->add_control(
 			'arrow_color',
 			array(
-				'label'     => __( 'Color', 'revora' ),
+				'label'     => __( 'Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .swiper-button-next, {{WRAPPER}} .swiper-button-prev' => 'color: {{VALUE}};',
@@ -708,7 +708,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'arrow_background',
 			array(
-				'label'     => __( 'Background Color', 'revora' ),
+				'label'     => __( 'Background Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .swiper-button-next, {{WRAPPER}} .swiper-button-prev' => 'background-color: {{VALUE}};',
@@ -721,14 +721,14 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_tab(
 			'arrow_hover',
 			array(
-				'label' => __( 'Hover', 'revora' ),
+				'label' => __( 'Hover', 'revora.moksedul.dev' ),
 			)
 		);
 
 		$this->add_control(
 			'arrow_hover_color',
 			array(
-				'label'     => __( 'Color', 'revora' ),
+				'label'     => __( 'Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .swiper-button-next:hover, {{WRAPPER}} .swiper-button-prev:hover' => 'color: {{VALUE}};',
@@ -739,7 +739,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'arrow_hover_background',
 			array(
-				'label'     => __( 'Background Color', 'revora' ),
+				'label'     => __( 'Background Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .swiper-button-next:hover, {{WRAPPER}} .swiper-button-prev:hover' => 'background-color: {{VALUE}};',
@@ -754,7 +754,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'arrow_border_radius',
 			array(
-				'label'      => __( 'Border Radius', 'revora' ),
+				'label'      => __( 'Border Radius', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', '%' ),
 				'selectors'  => array(
@@ -770,7 +770,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'style_pagination',
 			array(
-				'label'     => __( 'Pagination', 'revora' ),
+				'label'     => __( 'Pagination', 'revora.moksedul.dev' ),
 				'tab'       => \Elementor\Controls_Manager::TAB_STYLE,
 				'condition' => array(
 					'show_pagination' => 'yes',
@@ -781,7 +781,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'pagination_size',
 			array(
-				'label'      => __( 'Size', 'revora' ),
+				'label'      => __( 'Size', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'range'      => array(
@@ -802,7 +802,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'pagination_color',
 			array(
-				'label'     => __( 'Color', 'revora' ),
+				'label'     => __( 'Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .swiper-pagination-bullet' => 'background-color: {{VALUE}};',
@@ -815,7 +815,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'pagination_active_color',
 			array(
-				'label'     => __( 'Active Color', 'revora' ),
+				'label'     => __( 'Active Color', 'revora.moksedul.dev' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'selectors' => array(
 					'{{WRAPPER}} .swiper-pagination-bullet-active' => 'background-color: {{VALUE}};',
@@ -829,7 +829,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'pagination_spacing',
 			array(
-				'label'      => __( 'Bottom Spacing', 'revora' ),
+				'label'      => __( 'Bottom Spacing', 'revora.moksedul.dev' ),
 				'type'       => \Elementor\Controls_Manager::SLIDER,
 				'size_units' => array( 'px' ),
 				'range'      => array(
@@ -861,7 +861,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		) );
 
 		if ( empty( $reviews ) ) {
-			echo '<p class="revora-no-reviews">' . __( 'No reviews yet.', 'revora' ) . '</p>';
+			echo '<p class="revora-no-reviews">' . esc_html__( 'No reviews yet.', 'revora.moksedul.dev' ) . '</p>';
 			return;
 		}
 
@@ -880,7 +880,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 											<span class="revora-review-author"><?php echo esc_html( $review->name ); ?></span>
 										<?php endif; ?>
 										<?php if ( 'yes' === $settings['show_date'] ) : ?>
-											<span class="revora-review-date"><?php echo date_i18n( get_option( 'date_format' ), strtotime( $review->created_at ) ); ?></span>
+											<span class="revora-review-date"><?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $review->created_at ) ) ); ?></span>
 										<?php endif; ?>
 									</div>
 									<?php if ( 'yes' === $settings['show_rating'] && '1' === $plugin_settings['show_stars'] ) : ?>
@@ -895,7 +895,7 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 									<h4 class="revora-review-title"><?php echo esc_html( $review->title ); ?></h4>
 								<?php endif; ?>
 								<div class="revora-review-content">
-									<?php echo wpautop( esc_html( $review->content ) ); ?>
+									<?php echo wp_kses_post( wpautop( esc_html( $review->content ) ) ); ?>
 								</div>
 							</div>
 						</div>

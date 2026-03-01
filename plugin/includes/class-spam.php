@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+
 class Revora_Spam {
 
 	/**
@@ -15,32 +17,32 @@ class Revora_Spam {
 	public function is_spam( $data ) {
 		// 1. Honeypot check
 		if ( ! $this->check_honeypot( $data ) ) {
-			return new WP_Error( 'spam_honeypot', __( 'Spam detected (Honeypot).', 'revora' ) );
+			return new WP_Error( 'spam_honeypot', __( 'Spam detected (Honeypot).', 'revora.moksedul.dev' ) );
 		}
 
 		// 2. Numeric-only name check
 		if ( $this->is_numeric_name( $data['name'] ) ) {
-			return new WP_Error( 'spam_numeric_name', __( 'Numbers-only names are not allowed.', 'revora' ) );
+			return new WP_Error( 'spam_numeric_name', __( 'Numbers-only names are not allowed.', 'revora.moksedul.dev' ) );
 		}
 
 		// 3. Minimum length check
 		if ( $this->is_too_short( $data['content'] ) ) {
-			return new WP_Error( 'spam_too_short', __( 'Reviews must be at least 25 characters long.', 'revora' ) );
+			return new WP_Error( 'spam_too_short', __( 'Reviews must be at least 25 characters long.', 'revora.moksedul.dev' ) );
 		}
 
 		// 4. IP Throttling (Max 3 per hour)
 		if ( $this->is_throttled( $data['ip_address'] ) ) {
-			return new WP_Error( 'spam_throttled', __( 'Too many submissions from your IP. Please try again later.', 'revora' ) );
+			return new WP_Error( 'spam_throttled', __( 'Too many submissions from your IP. Please try again later.', 'revora.moksedul.dev' ) );
 		}
 
 		// 5. Disposable email check
 		if ( $this->is_disposable_email( $data['email'] ) ) {
-			return new WP_Error( 'spam_disposable_email', __( 'Disposable email domains are not allowed.', 'revora' ) );
+			return new WP_Error( 'spam_disposable_email', __( 'Disposable email domains are not allowed.', 'revora.moksedul.dev' ) );
 		}
 
 		// 6. Duplicate check
 		if ( $this->is_duplicate( $data ) ) {
-			return new WP_Error( 'spam_duplicate', __( 'Duplicate review detected.', 'revora' ) );
+			return new WP_Error( 'spam_duplicate', __( 'Duplicate review detected.', 'revora.moksedul.dev' ) );
 		}
 
 		return false;
@@ -74,10 +76,12 @@ class Revora_Spam {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'revora_reviews';
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$count = $wpdb->get_var( $wpdb->prepare(
 			"SELECT COUNT(id) FROM $table_name WHERE ip_address = %s AND created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR)",
 			$ip
 		) );
+		// phpcs:enable
 
 		return (int) $count >= 3;
 	}
@@ -106,11 +110,13 @@ class Revora_Spam {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'revora_reviews';
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 		$count = $wpdb->get_var( $wpdb->prepare(
 			"SELECT COUNT(id) FROM $table_name WHERE email = %s AND content = %s AND created_at > DATE_SUB(NOW(), INTERVAL 24 HOUR)",
 			$data['email'],
 			$data['content']
 		) );
+		// phpcs:enable
 
 		return (int) $count > 0;
 	}

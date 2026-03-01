@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+
 class Revora_DB {
 
 	/**
@@ -123,13 +125,18 @@ class Revora_DB {
 			$params[] = $args['status'];
 		}
 
+		// Sanitize order direction
+		$order = strtoupper( $args['order'] ) === 'ASC' ? 'ASC' : 'DESC';
+
+		// Sanitizer orderby (allow alphanumeric, underscore, dot)
+		$orderby = preg_replace( '/[^a-zA-Z0-9_.]/', '', $args['orderby'] );
+
 		// Ensure orderby column is prefixed with table alias to avoid ambiguity
-		$orderby = $args['orderby'];
 		if ( strpos( $orderby, '.' ) === false ) {
 			$orderby = 'r.' . $orderby;
 		}
 
-		$query .= " ORDER BY $orderby {$args['order']}";
+		$query .= " ORDER BY $orderby $order";
 		$query .= " LIMIT %d OFFSET %d";
 		$params[] = $args['limit'];
 		$params[] = $args['offset'];

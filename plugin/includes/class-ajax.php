@@ -25,7 +25,7 @@ class Revora_Ajax {
 	public function handle_submission() {
 		// Nonce check
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'revora_submit_nonce' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Security verification failed.', 'revora' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Security verification failed.', 'revora.moksedul.dev' ) ) );
 		}
 
 		// Sanitize and collect data
@@ -33,7 +33,7 @@ class Revora_Ajax {
 			'category_slug'   => sanitize_text_field( wp_unslash( $_POST['category_slug'] ?? '' ) ),
 			'name'            => sanitize_text_field( wp_unslash( $_POST['name'] ?? '' ) ),
 			'email'           => sanitize_email( wp_unslash( $_POST['email'] ?? '' ) ),
-			'rating'          => intval( $_POST['rating'] ?? 0 ),
+			'rating'          => intval( wp_unslash( $_POST['rating'] ?? 0 ) ),
 			'title'           => sanitize_text_field( wp_unslash( $_POST['title'] ?? '' ) ),
 			'content'         => sanitize_textarea_field( wp_unslash( $_POST['content'] ?? '' ) ),
 			'ip_address'      => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '',
@@ -42,7 +42,7 @@ class Revora_Ajax {
 
 		// Basic validation
 		if ( empty( $data['name'] ) || empty( $data['email'] ) || empty( $data['rating'] ) || empty( $data['content'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'All required fields must be filled.', 'revora' ) ) );
+			wp_send_json_error( array( 'message' => __( 'All required fields must be filled.', 'revora.moksedul.dev' ) ) );
 		}
 
 		// Spam checks
@@ -74,14 +74,14 @@ class Revora_Ajax {
 			$this->send_notifications( $data );
 
 			$success_msg = ( 'approved' === $data['status'] ) 
-				? __( 'Thank you! Your review has been published.', 'revora' )
-				: __( 'Thank you! Your review has been submitted and is awaiting moderation.', 'revora' );
+				? __( 'Thank you! Your review has been published.', 'revora.moksedul.dev' )
+				: __( 'Thank you! Your review has been submitted and is awaiting moderation.', 'revora.moksedul.dev' );
 
 			wp_send_json_success( array(
 				'message' => $success_msg,
 			) );
 		} else {
-			wp_send_json_error( array( 'message' => __( 'Something went wrong. Please try again.', 'revora' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Something went wrong. Please try again.', 'revora.moksedul.dev' ) ) );
 		}
 	}
 
@@ -92,8 +92,8 @@ class Revora_Ajax {
 		$settings = get_option( 'revora_settings' );
 		$admin_email = ! empty( $settings['admin_email'] ) ? $settings['admin_email'] : get_option( 'admin_email' );
 
-		$subject_template = ! empty( $settings['email_subject'] ) ? $settings['email_subject'] : __( 'New Review Submitted', 'revora' );
-		$body_template    = ! empty( $settings['email_template'] ) ? $settings['email_template'] : __( "New review from {author}\nRating: {rating}\n\n{content}", 'revora' );
+		$subject_template = ! empty( $settings['email_subject'] ) ? $settings['email_subject'] : __( 'New Review Submitted', 'revora.moksedul.dev' );
+		$body_template    = ! empty( $settings['email_template'] ) ? $settings['email_template'] : __( "New review from {author}\nRating: {rating}\n\n{content}", 'revora.moksedul.dev' );
 
 		$replace = array(
 			'{name}'       => $data['name'],
@@ -113,10 +113,12 @@ class Revora_Ajax {
 	 * Handle Load More Reviews
 	 */
 	public function handle_load_more() {
-		$category = isset( $_POST['category'] ) ? sanitize_text_field( $_POST['category'] ) : '';
-		$page = isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1;
-		$limit = isset( $_POST['limit'] ) ? intval( $_POST['limit'] ) : 6;
-		$card_style = isset( $_POST['card_style'] ) ? sanitize_text_field( $_POST['card_style'] ) : 'classic';
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		$category = isset( $_POST['category'] ) ? sanitize_text_field( wp_unslash( $_POST['category'] ) ) : '';
+		$page = isset( $_POST['page'] ) ? intval( wp_unslash( $_POST['page'] ) ) : 1;
+		$limit = isset( $_POST['limit'] ) ? intval( wp_unslash( $_POST['limit'] ) ) : 6;
+		$card_style = isset( $_POST['card_style'] ) ? sanitize_text_field( wp_unslash( $_POST['card_style'] ) ) : 'classic';
+		// phpcs:enable
 		$offset = $page * $limit;
 
 		$db = new Revora_DB();
@@ -128,7 +130,7 @@ class Revora_Ajax {
 		) );
 
 		if ( empty( $reviews ) ) {
-			wp_send_json_error( array( 'message' => __( 'No more reviews.', 'revora' ) ) );
+			wp_send_json_error( array( 'message' => __( 'No more reviews.', 'revora.moksedul.dev' ) ) );
 			return;
 		}
 
@@ -139,7 +141,7 @@ class Revora_Ajax {
 				<div class="revora-review-header">
 					<div class="revora-review-meta">
 						<span class="revora-review-author"><?php echo esc_html( $review->name ); ?></span>
-						<span class="revora-review-date"><?php echo date_i18n( get_option( 'date_format' ), strtotime( $review->created_at ) ); ?></span>
+						<span class="revora-review-date"><?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $review->created_at ) ) ); ?></span>
 					</div>
 					<?php if ( '1' === $settings['show_stars'] ) : ?>
 						<div class="revora-review-rating">
@@ -151,7 +153,7 @@ class Revora_Ajax {
 				</div>
 				<h4 class="revora-review-title"><?php echo esc_html( $review->title ); ?></h4>
 				<div class="revora-review-content">
-					<?php echo wpautop( esc_html( $review->content ) ); ?>
+					<?php echo wp_kses_post( wpautop( esc_html( $review->content ) ) ); ?>
 				</div>
 			</div>
 			<?php

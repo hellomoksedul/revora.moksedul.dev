@@ -196,21 +196,21 @@ class Revora {
 			'<p>%s</p>' .
 			'<h3>%s</h3>' .
 			'<p>%s</p>',
-			__( 'Revora - Review System', 'revora' ),
-			__( 'When users submit reviews through Revora, we collect and store the following information:', 'revora' ),
-			__( 'Data Collected', 'revora' ),
-			__( '<strong>Name</strong> - To display the reviewer\'s identity', 'revora' ),
-			__( '<strong>Email Address</strong> - For verification and notifications (not publicly displayed)', 'revora' ),
-			__( '<strong>Review Content</strong> - Title and detailed review text', 'revora' ),
-			__( '<strong>Star Rating</strong> - Rating from 1 to 5 stars', 'revora' ),
-			__( '<strong>IP Address</strong> - For spam detection and security purposes', 'revora' ),
-			__( '<strong>Submission Date</strong> - Timestamp of when the review was submitted', 'revora' ),
-			__( 'How We Use This Data', 'revora' ),
-			__( 'The collected data is used to display reviews on your website, send email notifications to administrators, detect and prevent spam submissions, and moderate reviews.', 'revora' ),
-			__( 'Data Retention', 'revora' ),
-			__( 'Review data is stored indefinitely until manually deleted by a site administrator through the Revora admin panel.', 'revora' ),
-			__( 'User Rights', 'revora' ),
-			__( 'Users can request deletion of their review data by contacting the site administrator. Administrators can delete reviews from the Revora admin panel at any time.', 'revora' )
+			__( 'Revora - Review System', 'revora.moksedul.dev' ),
+			__( 'When users submit reviews through Revora, we collect and store the following information:', 'revora.moksedul.dev' ),
+			__( 'Data Collected', 'revora.moksedul.dev' ),
+			__( '<strong>Name</strong> - To display the reviewer\'s identity', 'revora.moksedul.dev' ),
+			__( '<strong>Email Address</strong> - For verification and notifications (not publicly displayed)', 'revora.moksedul.dev' ),
+			__( '<strong>Review Content</strong> - Title and detailed review text', 'revora.moksedul.dev' ),
+			__( '<strong>Star Rating</strong> - Rating from 1 to 5 stars', 'revora.moksedul.dev' ),
+			__( '<strong>IP Address</strong> - For spam detection and security purposes', 'revora.moksedul.dev' ),
+			__( '<strong>Submission Date</strong> - Timestamp of when the review was submitted', 'revora.moksedul.dev' ),
+			__( 'How We Use This Data', 'revora.moksedul.dev' ),
+			__( 'The collected data is used to display reviews on your website, send email notifications to administrators, detect and prevent spam submissions, and moderate reviews.', 'revora.moksedul.dev' ),
+			__( 'Data Retention', 'revora.moksedul.dev' ),
+			__( 'Review data is stored indefinitely until manually deleted by a site administrator through the Revora admin panel.', 'revora.moksedul.dev' ),
+			__( 'User Rights', 'revora.moksedul.dev' ),
+			__( 'Users can request deletion of their review data by contacting the site administrator. Administrators can delete reviews from the Revora admin panel at any time.', 'revora.moksedul.dev' )
 		);
 
 		wp_add_privacy_policy_content(
@@ -224,8 +224,8 @@ class Revora {
 	 */
 	public function add_action_links( $links ) {
 		$plugin_links = array(
-			'<a href="' . esc_url( admin_url( 'admin.php?page=revora-settings' ) ) . '">' . esc_html__( 'Settings', 'revora' ) . '</a>',
-			'<a href="' . esc_url( 'https://revora.moksedul.dev/upgrade' ) . '" target="_blank" style="color: #39b54a; font-weight: bold;">' . esc_html__( 'Go Premium', 'revora' ) . '</a>',
+			'<a href="' . esc_url( admin_url( 'admin.php?page=revora-settings' ) ) . '">' . esc_html__( 'Settings', 'revora.moksedul.dev' ) . '</a>',
+			'<a href="' . esc_url( 'https://revora.moksedul.dev/upgrade' ) . '" target="_blank" style="color: #39b54a; font-weight: bold;">' . esc_html__( 'Go Premium', 'revora.moksedul.dev' ) . '</a>',
 		);
 		
 		return array_merge( $plugin_links, $links );
