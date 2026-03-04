@@ -46,7 +46,7 @@ class Revora_Elementor {
 		$elements_manager->add_category(
 			'revora',
 			array(
-				'title' => __( 'Revora', 'revora.moksedul.dev' ),
+				'title' => __( 'Revora', 'revora' ),
 				'icon'  => 'fa fa-star',
 			)
 		);

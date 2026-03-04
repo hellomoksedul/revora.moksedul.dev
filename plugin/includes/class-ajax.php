@@ -25,7 +25,7 @@ class Revora_Ajax {
 	public function handle_submission() {
 		// Nonce check
 		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'revora_submit_nonce' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Security verification failed.', 'revora.moksedul.dev' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Security verification failed.', 'revora' ) ) );
 		}
 
 		// Sanitize and collect data
@@ -42,7 +42,7 @@ class Revora_Ajax {
 
 		// Basic validation
 		if ( empty( $data['name'] ) || empty( $data['email'] ) || empty( $data['rating'] ) || empty( $data['content'] ) ) {
-			wp_send_json_error( array( 'message' => __( 'All required fields must be filled.', 'revora.moksedul.dev' ) ) );
+			wp_send_json_error( array( 'message' => __( 'All required fields must be filled.', 'revora' ) ) );
 		}
 
 		// Spam checks
@@ -74,14 +74,14 @@ class Revora_Ajax {
 			$this->send_notifications( $data );
 
 			$success_msg = ( 'approved' === $data['status'] ) 
-				? __( 'Thank you! Your review has been published.', 'revora.moksedul.dev' )
-				: __( 'Thank you! Your review has been submitted and is awaiting moderation.', 'revora.moksedul.dev' );
+				? __( 'Thank you! Your review has been published.', 'revora' )
+				: __( 'Thank you! Your review has been submitted and is awaiting moderation.', 'revora' );
 
 			wp_send_json_success( array(
 				'message' => $success_msg,
 			) );
 		} else {
-			wp_send_json_error( array( 'message' => __( 'Something went wrong. Please try again.', 'revora.moksedul.dev' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Something went wrong. Please try again.', 'revora' ) ) );
 		}
 	}
 
@@ -92,8 +92,8 @@ class Revora_Ajax {
 		$settings = get_option( 'revora_settings' );
 		$admin_email = ! empty( $settings['admin_email'] ) ? $settings['admin_email'] : get_option( 'admin_email' );
 
-		$subject_template = ! empty( $settings['email_subject'] ) ? $settings['email_subject'] : __( 'New Review Submitted', 'revora.moksedul.dev' );
-		$body_template    = ! empty( $settings['email_template'] ) ? $settings['email_template'] : __( "New review from {author}\nRating: {rating}\n\n{content}", 'revora.moksedul.dev' );
+		$subject_template = ! empty( $settings['email_subject'] ) ? $settings['email_subject'] : __( 'New Review Submitted', 'revora' );
+		$body_template    = ! empty( $settings['email_template'] ) ? $settings['email_template'] : __( "New review from {author}\nRating: {rating}\n\n{content}", 'revora' );
 
 		$replace = array(
 			'{name}'       => $data['name'],
@@ -113,12 +113,12 @@ class Revora_Ajax {
 	 * Handle Load More Reviews
 	 */
 	public function handle_load_more() {
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
-		$category = isset( $_POST['category'] ) ? sanitize_text_field( wp_unslash( $_POST['category'] ) ) : '';
-		$page = isset( $_POST['page'] ) ? intval( wp_unslash( $_POST['page'] ) ) : 1;
-		$limit = isset( $_POST['limit'] ) ? intval( wp_unslash( $_POST['limit'] ) ) : 6;
+		check_ajax_referer( 'revora_nonce', 'nonce' );
+
+		$category   = isset( $_POST['category'] ) ? sanitize_text_field( wp_unslash( $_POST['category'] ) ) : '';
+		$page       = isset( $_POST['page'] ) ? intval( wp_unslash( $_POST['page'] ) ) : 1;
+		$limit      = isset( $_POST['limit'] ) ? intval( wp_unslash( $_POST['limit'] ) ) : 6;
 		$card_style = isset( $_POST['card_style'] ) ? sanitize_text_field( wp_unslash( $_POST['card_style'] ) ) : 'classic';
-		// phpcs:enable
 		$offset = $page * $limit;
 
 		$db = new Revora_DB();
@@ -130,7 +130,7 @@ class Revora_Ajax {
 		) );
 
 		if ( empty( $reviews ) ) {
-			wp_send_json_error( array( 'message' => __( 'No more reviews.', 'revora.moksedul.dev' ) ) );
+			wp_send_json_error( array( 'message' => __( 'No more reviews.', 'revora' ) ) );
 			return;
 		}
 
@@ -146,7 +146,7 @@ class Revora_Ajax {
 					<?php if ( '1' === $settings['show_stars'] ) : ?>
 						<div class="revora-review-rating">
 							<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
-								<span class="dashicons dashicons-star-filled <?php echo $i <= $review->rating ? 'filled' : 'empty'; ?>"></span>
+								<span class="dashicons dashicons-star-filled <?php echo esc_attr( $i <= $review->rating ? 'filled' : 'empty' ); ?>"></span>
 							<?php endfor; ?>
 						</div>
 					<?php endif; ?>

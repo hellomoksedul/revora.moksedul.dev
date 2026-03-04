@@ -17,32 +17,32 @@ class Revora_Spam {
 	public function is_spam( $data ) {
 		// 1. Honeypot check
 		if ( ! $this->check_honeypot( $data ) ) {
-			return new WP_Error( 'spam_honeypot', __( 'Spam detected (Honeypot).', 'revora.moksedul.dev' ) );
+			return new WP_Error( 'spam_honeypot', __( 'Spam detected (Honeypot).', 'revora' ) );
 		}
 
 		// 2. Numeric-only name check
 		if ( $this->is_numeric_name( $data['name'] ) ) {
-			return new WP_Error( 'spam_numeric_name', __( 'Numbers-only names are not allowed.', 'revora.moksedul.dev' ) );
+			return new WP_Error( 'spam_numeric_name', __( 'Numbers-only names are not allowed.', 'revora' ) );
 		}
 
 		// 3. Minimum length check
 		if ( $this->is_too_short( $data['content'] ) ) {
-			return new WP_Error( 'spam_too_short', __( 'Reviews must be at least 25 characters long.', 'revora.moksedul.dev' ) );
+			return new WP_Error( 'spam_too_short', __( 'Reviews must be at least 25 characters long.', 'revora' ) );
 		}
 
 		// 4. IP Throttling (Max 3 per hour)
 		if ( $this->is_throttled( $data['ip_address'] ) ) {
-			return new WP_Error( 'spam_throttled', __( 'Too many submissions from your IP. Please try again later.', 'revora.moksedul.dev' ) );
+			return new WP_Error( 'spam_throttled', __( 'Too many submissions from your IP. Please try again later.', 'revora' ) );
 		}
 
 		// 5. Disposable email check
 		if ( $this->is_disposable_email( $data['email'] ) ) {
-			return new WP_Error( 'spam_disposable_email', __( 'Disposable email domains are not allowed.', 'revora.moksedul.dev' ) );
+			return new WP_Error( 'spam_disposable_email', __( 'Disposable email domains are not allowed.', 'revora' ) );
 		}
 
 		// 6. Duplicate check
 		if ( $this->is_duplicate( $data ) ) {
-			return new WP_Error( 'spam_duplicate', __( 'Duplicate review detected.', 'revora.moksedul.dev' ) );
+			return new WP_Error( 'spam_duplicate', __( 'Duplicate review detected.', 'revora' ) );
 		}
 
 		return false;

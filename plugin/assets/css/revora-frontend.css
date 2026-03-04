@@ -391,3 +391,10 @@
         height: 28px;
     }
 }
+
+/* Helper classes for Elementor Widgets */
+.revora-hide-author .revora-review-author { display: none !important; }
+.revora-hide-date .revora-review-date { display: none !important; }
+.revora-hide-rating .revora-review-rating { display: none !important; }
+.revora-hide-title .revora-review-title { display: none !important; }
+.revora-hide-load-more .revora-load-more-container { display: none !important; }

@@ -12,6 +12,7 @@ class Revora_Shortcodes {
 	public function __construct() {
 		add_shortcode( 'revora_reviews', array( $this, 'render_reviews_shortcode' ) );
 		add_shortcode( 'revora_form', array( $this, 'render_form_shortcode' ) );
+		add_action( 'wp_head', array( $this, 'maybe_inject_schema' ) );
 	}
 
 	/**
@@ -38,24 +39,30 @@ class Revora_Shortcodes {
 		) );
 
 		if ( empty( $reviews ) ) {
-			return '<p class="revora-no-reviews">' . esc_html__( 'No reviews yet.', 'revora.moksedul.dev' ) . '</p>';
+			return '<p class="revora-no-reviews">' . esc_html__( 'No reviews yet.', 'revora' ) . '</p>';
 		}
 
 		ob_start();
 
-		// Inject Schema.org SEO Markup
-		if ( '1' === $settings['enable_schema'] ) {
-			$this->inject_schema( $reviews, $atts['category'] );
-		}
+		// Schema is now handled via maybe_inject_schema() hooked to wp_head
 		?>
-		<div class="revora-reviews-container" 
+		// Dynamic Styles for this shortcode instance
+		$widget_id = uniqid( 'revora-' );
+		$custom_css = "
+			.{$widget_id} {
+				--revora-primary: " . esc_attr( $settings['primary_color'] ) . ";
+				--revora-star-filled: " . esc_attr( $settings['star_color'] ) . ";
+			}
+		";
+		wp_add_inline_style( 'revora-frontend', $custom_css );
+		?>
+		<div class="revora-reviews-container <?php echo esc_attr( $widget_id ); ?>" 
 			data-category="<?php echo esc_attr( $atts['category'] ); ?>" 
 			data-limit="<?php echo esc_attr( $atts['limit'] ); ?>"
 			data-columns="<?php echo esc_attr( $atts['columns'] ); ?>"
 			data-card-style="<?php echo esc_attr( $atts['card_style'] ); ?>">
 			
-			<div class="revora-reviews-grid revora-grid-cols-<?php echo esc_attr( $atts['columns'] ); ?>" 
-				style="--revora-primary: <?php echo esc_attr( $settings['primary_color'] ); ?>; --revora-star-filled: <?php echo esc_attr( $settings['star_color'] ); ?>;">
+			<div class="revora-reviews-grid revora-grid-cols-<?php echo esc_attr( $atts['columns'] ); ?>">
 				
 				<?php foreach ( $reviews as $review ) : ?>
 					<div class="revora-review-card style-<?php echo esc_attr( $atts['card_style'] ); ?>">
@@ -83,7 +90,7 @@ class Revora_Shortcodes {
 			<?php if ( count( $reviews ) < $total_reviews ) : ?>
 				<div class="revora-load-more-container">
 					<button class="revora-load-more-btn" data-page="1">
-						<span class="btn-text"><?php esc_html_e( 'Load More Reviews', 'revora.moksedul.dev' ); ?></span>
+						<span class="btn-text"><?php esc_html_e( 'Load More Reviews', 'revora' ); ?></span>
 						<span class="revora-spinner"></span>
 					</button>
 				</div>
@@ -94,18 +101,49 @@ class Revora_Shortcodes {
 	}
 
 	/**
-	 * Inject Schema.org JSON-LD
+	 * Maybe inject Schema.org JSON-LD in head
+	 */
+	public function maybe_inject_schema() {
+		global $post;
+		
+		if ( ! is_a( $post, 'WP_Post' ) ) {
+			return;
+		}
+
+		$settings = get_option( 'revora_settings' );
+		if ( empty( $settings['enable_schema'] ) || '1' !== $settings['enable_schema'] ) {
+			return;
+		}
+
+		if ( has_shortcode( $post->post_content, 'revora_reviews' ) ) {
+			// Extract category from shortcode
+			preg_match( '/\[revora_reviews[^\]]*category=["\']([^"\']+)["\']/', $post->post_content, $matches );
+			$category = isset( $matches[1] ) ? $matches[1] : '';
+			
+			$db = new Revora_DB();
+			$reviews = $db->get_approved_reviews( $category, 6 ); // Last 6 for schema
+			
+			if ( ! empty( $reviews ) ) {
+				$this->inject_schema( $reviews, $category );
+			}
+		}
+	}
+
+	/**
+	 * Output the actual JSON-LD script
 	 */
 	private function inject_schema( $reviews, $category = 'All' ) {
 		$total_rating = 0;
 		$count = count( $reviews );
-		foreach ( $reviews as $r ) $total_rating += $r->rating;
+		foreach ( $reviews as $r ) {
+			$total_rating += $r->rating;
+		}
 		$avg = $count > 0 ? round( $total_rating / $count, 1 ) : 0;
 
 		$schema = array(
 			'@context' => 'https://schema.org/',
 			'@type'    => 'Product',
-			'name'     => ! empty( $category ) ? $category : __( 'Service/Product Reviews', 'revora.moksedul.dev' ),
+			'name'     => ! empty( $category ) ? $category : __( 'Service/Product Reviews', 'revora' ),
 			'aggregateRating' => array(
 				'@type'       => 'AggregateRating',
 				'ratingValue' => $avg,
@@ -127,8 +165,8 @@ class Revora_Shortcodes {
 					'@type' => 'Person',
 					'name'  => $review->name,
 				),
-				'headline'     => $review->title,
-				'reviewBody'   => $review->content,
+				'headline'      => $review->title,
+				'reviewBody'    => $review->content,
 				'datePublished' => $review->created_at,
 			);
 		}
@@ -150,10 +188,17 @@ class Revora_Shortcodes {
 		$settings = get_option( 'revora_settings' );
 		$has_category = ! empty( $atts['category'] );
 
-		ob_start();
+		// Dynamic Styles for this shortcode instance
+		$widget_id = uniqid( 'revora-form-' );
+		$custom_css = "
+			.{$widget_id} {
+				--revora-primary: " . esc_attr( $settings['primary_color'] ) . ";
+			}
+		";
+		wp_add_inline_style( 'revora-frontend', $custom_css );
 		?>
-		<div class="revora-form-container" style="--revora-primary: <?php echo esc_attr( $settings['primary_color'] ); ?>;">
-			<h3><?php esc_html_e( 'Submit a Review', 'revora.moksedul.dev' ); ?></h3>
+		<div class="revora-form-container <?php echo esc_attr( $widget_id ); ?>">
+			<h3><?php esc_html_e( 'Submit a Review', 'revora' ); ?></h3>
 			<form id="revora-review-form" class="revora-form">
 				<?php wp_nonce_field( 'revora_submit_nonce', 'nonce' ); ?>
 				
@@ -164,17 +209,17 @@ class Revora_Shortcodes {
 				
 				<div class="revora-form-row">
 					<div class="revora-form-field">
-						<label for="revora_name"><?php esc_html_e( 'Your Name', 'revora.moksedul.dev' ); ?></label>
-						<input type="text" name="name" id="revora_name" placeholder="<?php esc_attr_e( 'John Doe', 'revora.moksedul.dev' ); ?>" required>
+						<label for="revora_name"><?php esc_html_e( 'Your Name', 'revora' ); ?></label>
+						<input type="text" name="name" id="revora_name" placeholder="<?php esc_attr_e( 'John Doe', 'revora' ); ?>" required>
 					</div>
 					<div class="revora-form-field">
-						<label for="revora_email"><?php esc_html_e( 'Your Email', 'revora.moksedul.dev' ); ?></label>
-						<input type="email" name="email" id="revora_email" placeholder="<?php esc_attr_e( 'john@example.com', 'revora.moksedul.dev' ); ?>" required>
+						<label for="revora_email"><?php esc_html_e( 'Your Email', 'revora' ); ?></label>
+						<input type="email" name="email" id="revora_email" placeholder="<?php esc_attr_e( 'john@example.com', 'revora' ); ?>" required>
 					</div>
 				</div>
 
 				<div class="revora-form-field">
-					<label><?php esc_html_e( 'Rating', 'revora.moksedul.dev' ); ?></label>
+					<label><?php esc_html_e( 'Rating', 'revora' ); ?></label>
 					<div class="revora-rating-input">
 						<?php for ( $i = 5; $i >= 1; $i-- ) : ?>
 							<input type="radio" id="star-<?php echo absint( $i ); ?>" name="rating" value="<?php echo absint( $i ); ?>" <?php checked( $i, 5 ); ?> required />
@@ -186,20 +231,20 @@ class Revora_Shortcodes {
 				</div>
 
 				<div class="revora-form-field">
-					<label for="revora_title"><?php esc_html_e( 'Review Title', 'revora.moksedul.dev' ); ?></label>
-					<input type="text" name="title" id="revora_title" placeholder="<?php esc_attr_e( 'Summarize your experience', 'revora.moksedul.dev' ); ?>" required>
+					<label for="revora_title"><?php esc_html_e( 'Review Title', 'revora' ); ?></label>
+					<input type="text" name="title" id="revora_title" placeholder="<?php esc_attr_e( 'Summarize your experience', 'revora' ); ?>" required>
 				</div>
 
 				<div class="revora-form-field">
-					<label for="revora_content"><?php esc_html_e( 'Review Content', 'revora.moksedul.dev' ); ?></label>
-					<textarea name="content" id="revora_content" rows="5" placeholder="<?php esc_attr_e( 'Share your detailed experience... (minimum 25 characters)', 'revora.moksedul.dev' ); ?>" required minlength="25"></textarea>
+					<label for="revora_content"><?php esc_html_e( 'Review Content', 'revora' ); ?></label>
+					<textarea name="content" id="revora_content" rows="5" placeholder="<?php esc_attr_e( 'Share your detailed experience... (minimum 25 characters)', 'revora' ); ?>" required minlength="25"></textarea>
 				</div>
 
 				<div id="revora-form-message" class="revora-form-message"></div>
 				
 				<div class="revora-form-footer">
 					<button type="submit" class="revora-submit-btn">
-						<span class="btn-text"><?php esc_html_e( 'Submit Review', 'revora.moksedul.dev' ); ?></span>
+						<span class="btn-text"><?php esc_html_e( 'Submit Review', 'revora' ); ?></span>
 						<span class="revora-spinner"></span>
 					</button>
 				</div>
