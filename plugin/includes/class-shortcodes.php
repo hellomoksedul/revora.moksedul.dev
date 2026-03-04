@@ -172,6 +172,7 @@ class Revora_Shortcodes {
 		}
 
 		echo '<script type="application/ld+json">' . wp_json_encode( $schema ) . '</script>';
+
 	}
 
 	/**

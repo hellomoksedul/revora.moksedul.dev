@@ -599,9 +599,12 @@ class Revora_Admin {
 	 * Render Categories Page
 	 */
 	public function render_categories_page() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$action = isset( $_GET['action'] ) ? sanitize_key( wp_unslash( $_GET['action'] ) ) : '';
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( 'edit_cat' === $action && isset( $_GET['cat_id'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$this->render_category_edit_page( intval( wp_unslash( $_GET['cat_id'] ) ) );
 			return;
 		}
@@ -610,7 +613,9 @@ class Revora_Admin {
 		$table->prepare_items();
 
 		$message = '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( isset( $_GET['message'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$msg_type = sanitize_key( wp_unslash( $_GET['message'] ) );
 			if ( 'added' === $msg_type ) {
 				$message = '<div class="updated notice is-dismissible"><p>' . esc_html__( 'Category added successfully.', 'revora' ) . '</p></div>';
