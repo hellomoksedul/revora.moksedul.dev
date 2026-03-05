@@ -181,7 +181,7 @@ Revora does not send data to any third-party services or external APIs.
 == Support ==
 
 For support, feature requests, or bug reports, please visit:
-https://wordpress.org/support/plugin/revora/
+https://wordpress.org/plugins/revora/
 
 == Credits ==
 

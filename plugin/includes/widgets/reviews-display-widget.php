@@ -788,5 +788,4 @@ class Revora_Reviews_Display_Widget extends \Elementor\Widget_Base {
 		echo do_shortcode( '[revora_reviews category="' . esc_attr( $category ) . '" limit="' . esc_attr( $limit ) . '" columns="' . esc_attr( $columns ) . '" card_style="' . esc_attr( $card_style ) . '"]' );
 		echo '</div>';
 	}
-	}
 }

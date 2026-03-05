@@ -867,60 +867,74 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		}
 
 		$widget_id = $this->get_id();
-		$arrow_class = 'outside' === $settings['arrow_position'] ? ' arrows-outside' : '';
-		?>
-		<div class="revora-slider-container<?php echo esc_attr( $arrow_class ); ?>">
-			<div class="swiper revora-slider-<?php echo esc_attr( $widget_id ); ?>">
-								<?php endforeach; ?>
-							</div>
-						</div>
-					</div>
-				</div>
-				<?php
-				// Slider Settings for JS
-				$slider_settings = array(
-					'slidesPerView'       => ! empty( $settings['slides_to_show'] ) ? intval( $settings['slides_to_show'] ) : 3,
-					'slidesToScroll'      => ! empty( $settings['slides_to_scroll'] ) ? intval( $settings['slides_to_scroll'] ) : 1,
-					'spaceBetween'        => ! empty( $settings['space_between']['size'] ) ? intval( $settings['space_between']['size'] ) : 24,
-					'autoplay'            => 'yes' === $settings['autoplay'],
-					'autoplaySpeed'       => ! empty( $settings['autoplay_speed'] ) ? intval( $settings['autoplay_speed'] ) : 3000,
-					'pauseOnHover'        => 'yes' === $settings['pause_on_hover'],
-					'loop'                => 'yes' === $settings['loop'],
-					'speed'               => ! empty( $settings['speed'] ) ? intval( $settings['speed'] ) : 500,
-					'effect'              => $settings['effect'],
-					'showArrows'          => 'yes' === $settings['show_arrows'],
-					'showPagination'      => 'yes' === $settings['show_pagination'],
-					'paginationType'      => $settings['pagination_type'],
-					'slidesToShowTablet'  => ! empty( $settings['slides_to_show_tablet'] ) ? intval( $settings['slides_to_show_tablet'] ) : 2,
-					'spaceBetweenTablet'  => ! empty( $settings['space_between_tablet']['size'] ) ? intval( $settings['space_between_tablet']['size'] ) : 20,
-					'slidesToShowMobile'  => ! empty( $settings['slides_to_show_mobile'] ) ? intval( $settings['slides_to_show_mobile'] ) : 1,
-					'spaceBetweenMobile'  => ! empty( $settings['space_between_mobile']['size'] ) ? intval( $settings['space_between_mobile']['size'] ) : 16,
-				);
+		// Slider Settings for JS
+		$slider_settings = array(
+			'slidesPerView'       => ! empty( $settings['slides_to_show'] ) ? intval( $settings['slides_to_show'] ) : 3,
+			'slidesToScroll'      => ! empty( $settings['slides_to_scroll'] ) ? intval( $settings['slides_to_scroll'] ) : 1,
+			'spaceBetween'        => ! empty( $settings['space_between']['size'] ) ? intval( $settings['space_between']['size'] ) : 24,
+			'autoplay'            => 'yes' === $settings['autoplay'],
+			'autoplaySpeed'       => ! empty( $settings['autoplay_speed'] ) ? intval( $settings['autoplay_speed'] ) : 3000,
+			'pauseOnHover'        => 'yes' === $settings['pause_on_hover'],
+			'loop'                => 'yes' === $settings['loop'],
+			'speed'               => ! empty( $settings['speed'] ) ? intval( $settings['speed'] ) : 500,
+			'effect'              => $settings['effect'],
+			'showArrows'          => 'yes' === $settings['show_arrows'],
+			'showPagination'      => 'yes' === $settings['show_pagination'],
+			'paginationType'      => $settings['pagination_type'],
+			'slidesToShowTablet'  => ! empty( $settings['slides_to_show_tablet'] ) ? intval( $settings['slides_to_show_tablet'] ) : 2,
+			'spaceBetweenTablet'  => ! empty( $settings['space_between_tablet']['size'] ) ? intval( $settings['space_between_tablet']['size'] ) : 20,
+			'slidesToShowMobile'  => ! empty( $settings['slides_to_show_mobile'] ) ? intval( $settings['slides_to_show_mobile'] ) : 1,
+			'spaceBetweenMobile'  => ! empty( $settings['space_between_mobile']['size'] ) ? intval( $settings['space_between_mobile']['size'] ) : 16,
+		);
 
-				$container_class = 'revora-slider-widget-container';
-				if ( 'outside' === $settings['arrow_position'] ) {
-					$container_class .= ' arrows-outside';
-				}
-				if ( 'yes' !== $settings['show_author'] ) {
-					$container_class .= ' revora-hide-author';
-				}
-				if ( 'yes' !== $settings['show_date'] ) {
-					$container_class .= ' revora-hide-date';
-				}
-				if ( 'yes' !== $settings['show_rating'] ) {
-					$container_class .= ' revora-hide-rating';
-				}
-				if ( 'yes' !== $settings['show_title'] ) {
-					$container_class .= ' revora-hide-title';
-				}
-				?>
+		$container_class = 'revora-slider-widget-container';
+		if ( 'outside' === $settings['arrow_position'] ) {
+			$container_class .= ' arrows-outside';
+		}
+		if ( 'yes' !== $settings['show_author'] ) {
+			$container_class .= ' revora-hide-author';
+		}
+		if ( 'yes' !== $settings['show_date'] ) {
+			$container_class .= ' revora-hide-date';
+		}
+		if ( 'yes' !== $settings['show_rating'] ) {
+			$container_class .= ' revora-hide-rating';
+		}
+		if ( 'yes' !== $settings['show_title'] ) {
+			$container_class .= ' revora-hide-title';
+		}
+		?>
 		<div class="<?php echo esc_attr( $container_class ); ?>" data-slider-settings='<?php echo wp_json_encode( $slider_settings ); ?>'>
 			<div class="revora-slider-container <?php echo esc_attr( $settings['arrow_position'] ); ?>-arrows">
 				<div class="swiper revora-reviews-slider revora-slider-<?php echo esc_attr( $widget_id ); ?>">
 					<div class="swiper-wrapper">
 						<?php foreach ( $reviews as $review ) : ?>
 							<div class="swiper-slide">
-								<?php echo do_shortcode( '[revora_reviews category="' . esc_attr( $category ) . '" limit="1" card_style="' . esc_attr( $card_style ) . '"]' ); ?>
+								<div class="revora-review-card style-<?php echo esc_attr( $settings['card_style'] ); ?>">
+									<div class="revora-review-header">
+										<div class="revora-review-meta">
+											<?php if ( 'yes' === $settings['show_author'] ) : ?>
+												<span class="revora-review-author"><?php echo esc_html( $review->name ); ?></span>
+											<?php endif; ?>
+											<?php if ( 'yes' === $settings['show_date'] ) : ?>
+												<span class="revora-review-date"><?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $review->created_at ) ) ); ?></span>
+											<?php endif; ?>
+										</div>
+										<?php if ( 'yes' === $settings['show_rating'] && '1' === $plugin_settings['show_stars'] ) : ?>
+											<div class="revora-review-rating">
+												<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
+													<span class="dashicons dashicons-star-filled <?php echo esc_attr( $i <= $review->rating ? 'filled' : 'empty' ); ?>"></span>
+												<?php endfor; ?>
+											</div>
+										<?php endif; ?>
+									</div>
+									<?php if ( 'yes' === $settings['show_title'] ) : ?>
+										<h4 class="revora-review-title"><?php echo esc_html( $review->title ); ?></h4>
+									<?php endif; ?>
+									<div class="revora-review-content">
+										<?php echo wp_kses_post( wpautop( esc_html( $review->content ) ) ); ?>
+									</div>
+								</div>
 							</div>
 						<?php endforeach; ?>
 					</div>
