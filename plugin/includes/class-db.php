@@ -15,6 +15,7 @@ class Revora_DB {
 	 */
 	private $table_name;
 	private $cat_table;
+	private $rel_table;
 
 	/**
 	 * Constructor
@@ -83,6 +84,7 @@ class Revora_DB {
 	 * Insert Review
 	 */
 	public function insert_review( $data ) {
+		global $wpdb;
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$inserted = $wpdb->insert( $this->table_name, $data );
 		return $inserted ? $wpdb->insert_id : false;
@@ -135,12 +137,12 @@ class Revora_DB {
 			$orderby = 'r.' . $orderby;
 		}
 
-		$query .= " ORDER BY $orderby $order";
+		$query .= " ORDER BY {$orderby} {$order}";
 		$query .= " LIMIT %d OFFSET %d";
 		$params[] = $args['limit'];
 		$params[] = $args['offset'];
 
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
 		return $wpdb->get_results( $wpdb->prepare( $query, $params ) );
 	}
 
@@ -156,16 +158,16 @@ class Revora_DB {
 		global $wpdb;
 		
 		if ( ! empty( $category_slug ) ) {
-			$query = sprintf(
-				"SELECT COUNT(DISTINCT r.id) FROM %s r
-				 INNER JOIN %s rc ON r.id = rc.review_id
-				 INNER JOIN %s c ON rc.cat_id = c.id
-				 WHERE r.status = 'approved' AND c.slug = %%s",
-				$this->table_name,
-				$this->rel_table,
-				$this->cat_table
-			);
-			return (int) $wpdb->get_var( $wpdb->prepare( $query, $category_slug ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+			/* phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
+			$results = $wpdb->get_var( $wpdb->prepare(
+				"SELECT COUNT(DISTINCT r.id) FROM {$this->table_name} r
+				 INNER JOIN {$this->rel_table} rc ON r.id = rc.review_id
+				 INNER JOIN {$this->cat_table} c ON rc.cat_id = c.id
+				 WHERE r.status = 'approved' AND c.slug = %s",
+				$category_slug
+			) );
+			/* phpcs:enable */
+			return (int) $results;
 		}
 		
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
@@ -176,17 +178,17 @@ class Revora_DB {
 		global $wpdb;
 
 		if ( $category_slug ) {
-			$query = sprintf(
+			/* phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
+			$row = $wpdb->get_row( $wpdb->prepare(
 				"SELECT AVG(r.rating) as average, COUNT(DISTINCT r.id) as total 
-					  FROM %s r
-					  INNER JOIN %s rc ON r.id = rc.review_id
-					  INNER JOIN %s c ON rc.cat_id = c.id
-					  WHERE c.slug = %%s AND r.status = 'approved'",
-				$this->table_name,
-				$this->rel_table,
-				$this->cat_table
-			);
-			return $wpdb->get_row( $wpdb->prepare( $query, $category_slug ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+				 FROM {$this->table_name} r
+				 INNER JOIN {$this->rel_table} rc ON r.id = rc.review_id
+				 INNER JOIN {$this->cat_table} c ON rc.cat_id = c.id
+				 WHERE c.slug = %s AND r.status = 'approved'",
+				$category_slug
+			) );
+			/* phpcs:enable */
+			return $row;
 		}
 
 		$stats = array(
@@ -220,18 +222,18 @@ class Revora_DB {
 	public function get_rating_breakdown( $category_slug ) {
 		global $wpdb;
 
-		$query = sprintf(
+		/* phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
+		$results = $wpdb->get_results( $wpdb->prepare(
 			"SELECT r.rating, COUNT(DISTINCT r.id) as count 
-				  FROM %s r
-				  INNER JOIN %s rc ON r.id = rc.review_id
-				  INNER JOIN %s c ON rc.cat_id = c.id
-				  WHERE c.slug = %%s AND r.status = 'approved' 
-				  GROUP BY r.rating",
-			$this->table_name,
-			$this->rel_table,
-			$this->cat_table
-		);
-		return $wpdb->get_results( $wpdb->prepare( $query, $category_slug ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+			 FROM {$this->table_name} r
+			 INNER JOIN {$this->rel_table} rc ON r.id = rc.review_id
+			 INNER JOIN {$this->cat_table} c ON rc.cat_id = c.id
+			 WHERE c.slug = %s AND r.status = 'approved' 
+			 GROUP BY r.rating",
+			$category_slug
+		) );
+		/* phpcs:enable */
+		return $results;
 	}
 
 	/**
@@ -239,7 +241,7 @@ class Revora_DB {
 	 */
 	public function update_status( $id, $status ) {
 		global $wpdb;
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->update(
 			$this->table_name,
 			array( 'status' => $status ),
@@ -297,29 +299,33 @@ class Revora_DB {
 
 	public function insert_category( $data ) {
 		global $wpdb;
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$inserted = $wpdb->insert( $this->cat_table, $data );
 		return $inserted ? $wpdb->insert_id : false;
 	}
 
 	public function get_categories( $args = array() ) {
 		global $wpdb;
-		$query = "SELECT * FROM $this->cat_table ORDER BY name ASC";
-		return $wpdb->get_results( $query ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+		/* phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
+		return $wpdb->get_results( "SELECT * FROM {$this->cat_table} ORDER BY name ASC" );
+		/* phpcs:enable */
 	}
 
 	public function get_category( $id ) {
 		global $wpdb;
-		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->cat_table WHERE id = %d", $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+		/* phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
+		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$this->cat_table} WHERE id = %d", $id ) );
+		/* phpcs:enable */
 	}
 
 	public function update_category( $id, $data ) {
 		global $wpdb;
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		return $wpdb->update( $this->cat_table, $data, array( 'id' => $id ) );
 	}
 
 	public function delete_category( $id ) {
+		global $wpdb;
 		// Also delete relationships
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->delete( $this->rel_table, array( 'cat_id' => $id ) );
@@ -332,7 +338,9 @@ class Revora_DB {
 	 */
 	public function get_category_by_slug( $slug ) {
 		global $wpdb;
-		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $this->cat_table WHERE slug = %s", $slug ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+		/* phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
+		return $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$this->cat_table} WHERE slug = %s", $slug ) );
+		/* phpcs:enable */
 	}
 
 	/**
@@ -386,7 +394,9 @@ class Revora_DB {
 
 	public function get_review_categories( $review_id ) {
 		global $wpdb;
-		return $wpdb->get_col( $wpdb->prepare( "SELECT cat_id FROM $this->rel_table WHERE review_id = %d", $review_id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter
+		/* phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter */
+		return $wpdb->get_col( $wpdb->prepare( "SELECT cat_id FROM {$this->rel_table} WHERE review_id = %d", $review_id ) );
+		/* phpcs:enable */
 	}
 
 	public function duplicate_review( $id ) {

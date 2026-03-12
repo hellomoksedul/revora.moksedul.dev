@@ -156,6 +156,10 @@ class Revora_Admin {
 	 * Handle Page Actions
 	 */
 	public function handle_page_actions() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		if ( isset( $_POST['revora_add_new'] ) && check_admin_referer( 'revora_add_review', 'revora_nonce' ) ) {
 			$db = new Revora_DB();
 			$data = array(
@@ -1215,6 +1219,10 @@ class Revora_Category_List_Table extends WP_List_Table {
  * Handle Deactivation Survey (Outside Main Admin Class to avoid complexity)
  */
 add_action( 'wp_ajax_revora_submit_deactivation_feedback', function() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( 'Permission denied' );
+	}
+
 	check_ajax_referer( 'revora_deactivation_nonce', 'nonce' );
 	
 	$reason  = sanitize_text_field( wp_unslash( $_POST['reason'] ?? '' ) );

@@ -46,6 +46,7 @@ class Revora_Shortcodes {
 
 		// Schema is now handled via maybe_inject_schema() hooked to wp_head
 		?>
+		<?php
 		// Dynamic Styles for this shortcode instance
 		$widget_id = uniqid( 'revora-' );
 		$custom_css = "
