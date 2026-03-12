@@ -1,10 +1,10 @@
 === Revora ===
-Contributors: moksedul
+Contributors: dmoksedul
 Tags: reviews, testimonials, rating, elementor, ajax
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,17 +122,7 @@ This feature is planned for a future update. Currently, reviews are stored in th
 
 == Changelog ==
 
-= 1.0.1 - 2026-02-18 =
-* Added: Elementor integration with 3 custom widgets
-* Added: 5 card design variants (Classic, Modern, Boxed, Horizontal, Testimonial)
-* Added: Reviews Slider widget with Swiper.js
-* Added: Load more pagination (AJAX)
-* Added: Form input placeholders
-* Improved: Submit button styling
-* Improved: Frontend CSS organization
-* Fixed: Minor CSS issues
-
-= 1.0.0 - 2026-02-17 =
+= 1.0.0 - 2026-03-12 =
 * Initial release
 * Category-based review system
 * AJAX form submission
@@ -142,11 +132,15 @@ This feature is planned for a future update. Currently, reviews are stored in th
 * SEO schema markup
 * Responsive design
 * Shortcode support
+* Added: Elementor integration with 3 custom widgets
+* Added: 5 card design variants (Classic, Modern, Boxed, Horizontal, Testimonial)
+* Added: Reviews Slider widget with Swiper.js
+* Added: Load more pagination (AJAX)
+* Added: Form input placeholders
+* Improved: Submit button styling
+* Improved: Frontend CSS organization
 
 == Upgrade Notice ==
-
-= 1.0.1 =
-Major update with Elementor integration and card design variants. Backup your database before updating.
 
 = 1.0.0 =
 Initial release of Revora.
