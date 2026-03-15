@@ -124,4 +124,69 @@ jQuery(document).ready(function($) {
             }
         });
     });
+    /**
+     * Initialize Swiper Sliders
+     */
+    function initRevoraSliders() {
+        $('.revora-slider-widget-container').each(function() {
+            const $container = $(this);
+            const $slider = $container.find('.revora-reviews-slider');
+            const settings = $container.data('slider-settings');
+
+            if (!$slider.length || !settings) return;
+            if ($slider.hasClass('swiper-initialized')) return;
+
+            const swiperOptions = {
+                slidesPerView: settings.slidesPerView || 1,
+                slidesPerGroup: settings.slidesToScroll || 1,
+                spaceBetween: settings.spaceBetween || 24,
+                loop: settings.loop,
+                speed: settings.speed || 500,
+                effect: settings.effect || 'slide',
+                autoplay: settings.autoplay ? {
+                    delay: settings.autoplaySpeed || 3000,
+                    disableOnInteraction: false,
+                    pauseOnHover: settings.pauseOnHover
+                } : false,
+                navigation: settings.showArrows ? {
+                    nextEl: $container.find('.swiper-button-next')[0],
+                    prevEl: $container.find('.swiper-button-prev')[0],
+                } : false,
+                pagination: settings.showPagination ? {
+                    el: $container.find('.swiper-pagination')[0],
+                    type: settings.paginationType || 'bullets',
+                    clickable: true
+                } : false,
+                breakpoints: {
+                    // Mobile
+                    320: {
+                        slidesPerView: settings.slidesToShowMobile || 1,
+                        spaceBetween: settings.spaceBetweenMobile || 16
+                    },
+                    // Tablet
+                    768: {
+                        slidesPerView: settings.slidesToShowTablet || 2,
+                        spaceBetween: settings.spaceBetweenTablet || 20
+                    },
+                    // Desktop
+                    1024: {
+                        slidesPerView: settings.slidesPerView || 3,
+                        spaceBetween: settings.spaceBetween || 24
+                    }
+                }
+            };
+
+            new Swiper($slider[0], swiperOptions);
+        });
+    }
+
+    // Init on load
+    initRevoraSliders();
+
+    // Init in Elementor Editor
+    $(window).on('elementor/frontend/init', function() {
+        elementorFrontend.hooks.addAction('frontend/element_ready/revora_reviews_slider.default', function($scope) {
+            initRevoraSliders();
+        });
+    });
 });

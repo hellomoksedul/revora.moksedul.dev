@@ -185,6 +185,7 @@ class Revora_Shortcodes {
 			'category' => '',
 		), $atts, 'revora_form' );
 
+		ob_start();
 		$db = new Revora_DB();
 		$categories = $db->get_categories();
 		$settings = get_option( 'revora_settings' );
@@ -195,6 +196,7 @@ class Revora_Shortcodes {
 		$custom_css = "
 			.{$widget_id} {
 				--revora-primary: " . esc_attr( $settings['primary_color'] ) . ";
+				--revora-star-filled: " . esc_attr( $settings['star_color'] ) . ";
 			}
 		";
 		wp_add_inline_style( 'revora-frontend', $custom_css );

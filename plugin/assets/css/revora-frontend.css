@@ -39,6 +39,18 @@
     grid-template-columns: 1fr;
 }
 
+.revora-grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.revora-grid-cols-5 {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.revora-grid-cols-6 {
+    grid-template-columns: repeat(6, 1fr);
+}
+
 /* Review Card */
 .revora-review-card {
     background: var(--revora-bg);
@@ -193,8 +205,11 @@
     border: 1px solid var(--revora-border);
     border-radius: 8px;
     padding: 32px;
-    max-width: 600px;
+    width: 100%;
+    max-width: 800px;
     margin: 30px auto;
+    clear: both;
+    box-sizing: border-box;
 }
 
 .revora-form-container h3 {

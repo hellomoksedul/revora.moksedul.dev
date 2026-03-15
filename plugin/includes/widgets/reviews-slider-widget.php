@@ -867,6 +867,17 @@ class Revora_Reviews_Slider_Widget extends \Elementor\Widget_Base {
 		}
 
 		$widget_id = $this->get_id();
+		$settings_opts = get_option( 'revora_settings' );
+		$primary_color = ! empty( $settings_opts['primary_color'] ) ? $settings_opts['primary_color'] : '#4566f9';
+		$star_color = ! empty( $settings_opts['star_color'] ) ? $settings_opts['star_color'] : '#fbbf24';
+
+		$custom_css = "
+			.revora-slider-{$widget_id} {
+				--revora-primary: " . esc_attr( $primary_color ) . ";
+				--revora-star-filled: " . esc_attr( $star_color ) . ";
+			}
+		";
+		wp_add_inline_style( 'revora-frontend', $custom_css );
 		// Slider Settings for JS
 		$slider_settings = array(
 			'slidesPerView'       => ! empty( $settings['slides_to_show'] ) ? intval( $settings['slides_to_show'] ) : 3,
