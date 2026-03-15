@@ -188,7 +188,10 @@ class Revora_Shortcodes {
 		ob_start();
 		$db = new Revora_DB();
 		$categories = $db->get_categories();
-		$settings = get_option( 'revora_settings' );
+		$settings = wp_parse_args( get_option( 'revora_settings', array() ), array(
+			'primary_color' => '#4566f9',
+			'star_color'    => '#fbbf24',
+		) );
 		$has_category = ! empty( $atts['category'] );
 
 		// Dynamic Styles for this shortcode instance
