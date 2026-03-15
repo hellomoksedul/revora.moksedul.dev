@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
     $(document).on('click', '#the-list [data-slug="revora"] a.edit[aria-label*="Deactivate"], #the-list [data-slug="revora"] span.deactivate a', function(e) {
         e.preventDefault();
         deactivateUrl = $(this).attr('href');
-        $modal.show();
+        $modal.css('display', 'flex');
     });
 
     // Handle "Other" reason toggle

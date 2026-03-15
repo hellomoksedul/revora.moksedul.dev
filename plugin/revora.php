@@ -139,6 +139,7 @@ class Revora {
 		
 		wp_localize_script( 'revora-frontend', 'revora_vars', array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce'    => wp_create_nonce( 'revora_nonce' ),
 		) );
 	}
 

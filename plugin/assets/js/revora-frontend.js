@@ -97,6 +97,7 @@ jQuery(document).ready(function($) {
             type: 'POST',
             data: {
                 action: 'revora_load_more',
+                nonce: revora_vars.nonce,
                 category: category,
                 page: page,
                 limit: limit,
